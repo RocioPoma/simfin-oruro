@@ -313,71 +313,71 @@ const EXAMPLES = {
 /* ===================== indicadores ===================== */
 // definición: key, nombre, dimensión, formato, hb, fórmula, frase sencilla, recomendación
 const EMP_IND = [
-  { k: 'RC', n: 'Razón corriente', d: 'Liquidez', f: 'x', hb: 1, fx: 'Activo corriente / Pasivo corriente',
+  { k: 'RC', n: 'RC (Razón Corriente)', d: 'Liquidez', f: 'x', hb: 1, fx: 'Activo corriente / Pasivo corriente',
     plain: v => `Por cada Bs 1 que debe a corto plazo, tiene Bs ${nf(v, 2)} en dinero y bienes de corto plazo.`,
     rec: 'Fortalezca su liquidez: cobre más rápido, compre solo lo que rota y no use deuda de corto plazo para comprar activos fijos.' },
-  { k: 'PA', n: 'Prueba ácida', d: 'Liquidez', f: 'x', hb: 1, fx: '(Activo corriente − Inventarios) / Pasivo corriente',
+  { k: 'PA', n: 'PA (Prueba Ácida)', d: 'Liquidez', f: 'x', hb: 1, fx: '(Activo corriente − Inventarios) / Pasivo corriente',
     plain: v => v >= 1 ? 'Puede pagar todas sus deudas de corto plazo sin necesidad de vender inventario.' : `Sin vender inventario, cubre solo ${nf(v * 100, 0)} centavos de cada Bs 1 que debe a corto plazo.`,
     rec: 'Reduzca la dependencia del inventario: liquide productos de baja rotación y mantenga un saldo mínimo en caja.' },
-  { k: 'RAT', n: 'Rotación de activos totales', d: 'Actividad', f: 'x', hb: 1, fx: 'Ventas netas / Activo total',
+  { k: 'RAT', n: 'RAT (Rotación de Activos Totales)', d: 'Actividad', f: 'x', hb: 1, fx: 'Ventas netas / Activo total',
     plain: v => `Por cada Bs 1 invertido en el negocio, vende Bs ${nf(v, 2)} al año.`,
     rec: 'Dé uso o venda los activos que no generan ventas (equipos ociosos, mercadería parada).' },
-  { k: 'RI', n: 'Rotación de inventarios', d: 'Actividad', f: 'd', hb: 0, fx: '(Inventarios / Costo de ventas) × 365', skip: x => x.inv <= 0,
+  { k: 'RI', n: 'RI (Rotación de Inventarios en Días)', d: 'Actividad', f: 'd', hb: 0, fx: '(Inventarios / Costo de ventas) × 365', skip: x => x.inv <= 0,
     plain: v => `Su inventario tarda ${nf(v, 0)} días en venderse o en convertirse en producción vendida.`,
     rec: 'Compre en lotes más pequeños y frecuentes, y promocione los productos que se venden lento.' },
-  { k: 'PPC', n: 'Periodo promedio de cobro', d: 'Actividad', f: 'd', hb: 0, fx: '(Cuentas por cobrar / Ventas netas) × 365',
+  { k: 'PPC', n: 'PPC (Periodo Promedio de Cobro)', d: 'Actividad', f: 'd', hb: 0, fx: '(Cuentas por cobrar / Ventas netas) × 365',
     plain: v => `Sus clientes tardan en promedio ${nf(v, 0)} días en pagarle.`,
     rec: 'Acorte el plazo de crédito a clientes, pida adelantos y haga seguimiento semanal de los cobros pendientes.' },
-  { k: 'REA', n: 'Endeudamiento de activos', d: 'Endeudamiento', f: '%', hb: 0, fx: 'Pasivo total / Activo total',
+  { k: 'REA', n: 'REA (Ratio de Endeudamiento de Activos)', d: 'Endeudamiento', f: '%', hb: 0, fx: 'Pasivo total / Activo total',
     plain: v => `De cada Bs 100 que tiene la empresa, Bs ${nf(v * 100, 0)} están financiados con deudas.`,
     rec: 'Evite nuevas deudas y destine parte de las utilidades a reducir los préstamos.' },
-  { k: 'RE', n: 'Ratio de endeudamiento', d: 'Endeudamiento', f: 'x', hb: 0, fx: 'Pasivo total / Patrimonio',
+  { k: 'RE', n: 'RE (Ratio de Endeudamiento)', d: 'Endeudamiento', f: 'x', hb: 0, fx: 'Pasivo total / Patrimonio',
     plain: v => v < 0 ? 'El patrimonio es negativo: la empresa debe más de lo que tiene.' : `Por cada Bs 1 que pusieron los dueños, la empresa debe Bs ${nf(v, 2)} a terceros.`,
     rec: 'Fortalezca el capital propio: reinvierta utilidades o considere un aporte de los socios.' },
-  { k: 'CI', n: 'Cobertura de intereses', d: 'Endeudamiento', f: 'x', hb: 1, fx: 'Utilidad operativa / Gastos financieros',
+  { k: 'CI', n: 'CI (Cobertura de Intereses)', d: 'Endeudamiento', f: 'x', hb: 1, fx: 'Utilidad operativa / Gastos financieros',
     plain: v => !isFinite(v) ? 'No tiene gastos financieros que cubrir.' : `Su ganancia operativa cubre ${nf(v, 2)} veces los intereses que paga.`,
     rec: 'Renegocie la tasa o el plazo de sus préstamos y mejore la utilidad operativa antes de pedir más crédito.' },
-  { k: 'MB', n: 'Margen de utilidad bruta', d: 'Rentabilidad', f: '%', hb: 1, fx: '(Ventas − Costo de ventas) / Ventas × 100',
+  { k: 'MB', n: 'MUB (Margen de Utilidad Bruta)', d: 'Rentabilidad', f: '%', hb: 1, fx: '(Ventas − Costo de ventas) / Ventas × 100',
     plain: v => `De cada Bs 100 vendidos, le quedan Bs ${nf(v * 100, 1)} después de cubrir el costo de lo vendido.`,
     rec: 'Negocie precios con proveedores, reduzca mermas y revise si sus precios de venta cubren los costos.' },
-  { k: 'MN', n: 'Margen de utilidad neta', d: 'Rentabilidad', f: '%', hb: 1, fx: 'Utilidad neta / Ventas × 100',
+  { k: 'MN', n: 'MUN (Margen de Utilidad Neta)', d: 'Rentabilidad', f: '%', hb: 1, fx: 'Utilidad neta / Ventas × 100',
     plain: v => v < 0 ? `Por cada Bs 100 vendidos pierde Bs ${nf(-v * 100, 1)}.` : `De cada Bs 100 vendidos, su ganancia final es Bs ${nf(v * 100, 2)}.`,
     rec: 'Revise los gastos operativos uno por uno y elimine los que no ayudan a vender.' },
-  { k: 'ROA', n: 'ROA (rentabilidad sobre activos)', d: 'Rentabilidad', f: '%', hb: 1, fx: 'Utilidad neta / Activo total × 100',
+  { k: 'ROA', n: 'ROA (Rentabilidad sobre Activos)', d: 'Rentabilidad', f: '%', hb: 1, fx: 'Utilidad neta / Activo total × 100',
     plain: v => `Los bienes de la empresa generan ${pc(v)} de ganancia al año.`,
     rec: 'Mejore el margen o la rotación de activos; el análisis DuPont muestra cuál de los dos pesa más.' },
-  { k: 'ROE', n: 'ROE (rentabilidad sobre patrimonio)', d: 'Rentabilidad', f: '%', hb: 1, fx: 'Utilidad neta / Patrimonio × 100',
+  { k: 'ROE', n: 'ROE (Rentabilidad sobre el Patrimonio)', d: 'Rentabilidad', f: '%', hb: 1, fx: 'Utilidad neta / Patrimonio × 100',
     plain: v => `Los dueños ganan ${pc(v)} al año sobre el dinero que invirtieron.`,
     rec: 'Si el ROE es menor que lo que pagaría un depósito a plazo fijo, el negocio no está compensando el riesgo: priorice la mejora del margen.' }
 ];
 const EMP_EXTRA = [
-  { k: 'PD', n: 'Prueba defensiva', f: 'x', fx: 'Disponibles / Pasivo corriente', plain: v => `Con el dinero en caja y bancos cubre el ${pc(v, 0)} de sus deudas de corto plazo.` },
-  { k: 'PT', n: 'Razón de tesorería', f: 'x', fx: '(Disponibles + Cuentas por cobrar) / Pasivo corriente', plain: v => `Con su dinero y lo que le deben cubre ${nf(v, 2)} veces sus deudas de corto plazo.` },
-  { k: 'CT', n: 'Capital de trabajo', f: 'bs', fx: 'Activo corriente − Pasivo corriente', plain: v => v >= 0 ? `Le quedan ${bs(v)} para operar después de cubrir sus deudas de corto plazo.` : `Le faltan ${bs(-v)} para cubrir sus deudas de corto plazo.` },
-  { k: 'RIv', n: 'Rotación de inventarios (veces)', f: 'x', fx: 'Costo de ventas / Inventarios', plain: v => `Renueva su inventario ${nf(v, 1)} veces al año.` },
-  { k: 'RAF', n: 'Rotación de activos no corrientes', f: 'x', fx: 'Ventas netas / Activo no corriente', plain: v => `Cada Bs 1 en activo no corriente genera Bs ${nf(v, 2)} en ventas.` },
-  { k: 'CD', n: 'Calidad de la deuda', f: '%', fx: 'Pasivo corriente / Pasivo total', plain: v => `El ${pc(v, 0)} de sus deudas vence en menos de un año.` }
+  { k: 'PD', n: 'PD (Prueba Defensiva)', f: 'x', fx: 'Disponibles / Pasivo corriente', plain: v => `Con el dinero en caja y bancos cubre el ${pc(v, 0)} de sus deudas de corto plazo.` },
+  { k: 'PT', n: 'PT (Razón de Tesorería)', f: 'x', fx: '(Disponibles + Cuentas por cobrar) / Pasivo corriente', plain: v => `Con su dinero y lo que le deben cubre ${nf(v, 2)} veces sus deudas de corto plazo.` },
+  { k: 'CT', n: 'CT (Capital de Trabajo)', f: 'bs', fx: 'Activo corriente − Pasivo corriente', plain: v => v >= 0 ? `Le quedan ${bs(v)} para operar después de cubrir sus deudas de corto plazo.` : `Le faltan ${bs(-v)} para cubrir sus deudas de corto plazo.` },
+  { k: 'RIv', n: 'RI (Rotación de Inventarios en Veces)', f: 'x', fx: 'Costo de ventas / Inventarios', plain: v => `Renueva su inventario ${nf(v, 1)} veces al año.` },
+  { k: 'RAF', n: 'RAF (Rotación de Activos Fijos y No Corrientes)', f: 'x', fx: 'Ventas netas / Activo no corriente', plain: v => `Cada Bs 1 en activo no corriente genera Bs ${nf(v, 2)} en ventas.` },
+  { k: 'CD', n: 'CDD (Calidad de la Deuda)', f: '%', fx: 'Pasivo corriente / Pasivo total', plain: v => `El ${pc(v, 0)} de sus deudas vence en menos de un año.` }
 ];
 const PER_IND = [
-  { k: 'TA', n: 'Tasa de ahorro', d: 'Ahorro', f: '%', hb: 1, fx: '(Ingresos − Gastos − Cuotas) / Ingresos',
+  { k: 'TA', n: 'TA (Tasa de Ahorro)', d: 'Ahorro', f: '%', hb: 1, fx: '(Ingresos − Gastos − Cuotas) / Ingresos',
     plain: (v, x) => v < 0 ? `Gasta más de lo que gana: le faltan ${bs(-x.saldo)} cada mes.` : `De cada Bs 100 que recibe, ahorra Bs ${nf(v * 100, 1)}.`,
     rec: 'Págese primero: apenas reciba su ingreso, separe un monto fijo de ahorro antes de gastar.' },
-  { k: 'FE', n: 'Fondo de emergencia', d: 'Liquidez', f: 'm', hb: 1, fx: 'Ahorros / (Gastos necesarios + Cuotas)',
+  { k: 'FE', n: 'FE (Fondo de Emergencia)', d: 'Liquidez', f: 'm', hb: 1, fx: 'Ahorros / (Gastos necesarios + Cuotas)',
     plain: v => `Si dejara de recibir ingresos, sus ahorros cubrirían ${nf(v, 1)} meses de gastos esenciales.`,
     rec: 'Construya un fondo de emergencia en una cuenta separada hasta cubrir la meta de meses indicada.' },
-  { k: 'EI', n: 'Estabilidad del ingreso', d: 'Liquidez', f: '%', hb: 1, fx: 'Ingreso del peor mes / Ingreso promedio', only: 'independiente', skip: x => !(x.min > 0),
+  { k: 'EI', n: 'EI (Estabilidad del Ingreso)', d: 'Liquidez', f: '%', hb: 1, fx: 'Ingreso del peor mes / Ingreso promedio', only: 'independiente', skip: x => !(x.min > 0),
     plain: v => `En su peor mes recibe el ${pc(v, 0)} de su ingreso promedio.`,
     rec: 'Diversifique sus fuentes de ingreso y presupueste con base en el ingreso del peor mes, no del promedio.' },
-  { k: 'CDd', n: 'Carga de la deuda', d: 'Endeudamiento', f: '%', hb: 0, fx: 'Cuotas mensuales / Ingresos',
+  { k: 'CDd', n: 'CDE (Carga de la Deuda)', d: 'Endeudamiento', f: '%', hb: 0, fx: 'Cuotas mensuales / Ingresos',
     plain: v => `Destina el ${pc(v)} de sus ingresos a pagar deudas.`,
     rec: 'No adquiera nuevos créditos hasta que sus cuotas bajen del 30 % de sus ingresos; pague primero la deuda más cara.' },
-  { k: 'EP', n: 'Endeudamiento patrimonial', d: 'Endeudamiento', f: '%', hb: 0, fx: 'Deudas totales / (Bienes + Ahorros)',
+  { k: 'EP', n: 'EP (Endeudamiento Patrimonial)', d: 'Endeudamiento', f: '%', hb: 0, fx: 'Deudas totales / (Bienes + Ahorros)',
     plain: v => `Sus deudas equivalen al ${pc(v, 0)} de todo lo que posee.`,
     rec: 'Reduzca el saldo de sus deudas antes de comprar nuevos bienes a crédito.' },
-  { k: 'GN', n: 'Gastos necesarios', d: 'Control del gasto', f: '%', hb: 0, fx: 'Gastos necesarios / Ingresos',
+  { k: 'GN', n: 'GN (Gastos Necesarios)', d: 'Control del gasto', f: '%', hb: 0, fx: 'Gastos necesarios / Ingresos',
     plain: v => `Sus gastos necesarios ocupan el ${pc(v, 0)} de sus ingresos (lo recomendable es hasta 50 %).`,
     rec: 'Revise vivienda, transporte y servicios: pequeños ajustes en gastos fijos liberan dinero todos los meses.' },
-  { k: 'GG', n: 'Gastos personales', d: 'Control del gasto', f: '%', hb: 0, fx: 'Gastos personales / Ingresos',
+  { k: 'GG', n: 'GP (Gastos Personales)', d: 'Control del gasto', f: '%', hb: 0, fx: 'Gastos personales / Ingresos',
     plain: v => `Sus gastos personales ocupan el ${pc(v, 0)} de sus ingresos (lo recomendable es hasta 30 %).`,
     rec: 'Fije un monto mensual para gastos personales y anote cada gasto durante un mes.' }
 ];
@@ -539,7 +539,7 @@ function gauge(v, st) {
     <path d="M${x0} ${y0} A${r} ${r} 0 0 1 ${xe} ${ye}" stroke="var(--sunk)" stroke-width="18" fill="none" stroke-linecap="round"/>
     <path class="v" d="M${x0} ${y0} A${r} ${r} 0 0 1 ${x1} ${y1}" stroke="${COL[st]}" stroke-width="18" fill="none" stroke-linecap="round"/>${ticks}
     <text x="100" y="92" text-anchor="middle" font-family="var(--f-mono)" font-size="40" font-weight="600" style="fill:${COL[st]}">${Math.round(v)}</text>
-    <text x="100" y="114" text-anchor="middle" font-size="11" style="fill:var(--muted)">Índice de Salud Financiera</text></svg>`;
+    <text x="100" y="114" text-anchor="middle" font-size="11" style="fill:var(--muted)">ISF (Índice de Salud Financiera)</text></svg>`;
 }
 function radar(items) {
   const n = items.length; if (n < 3) return '<p class="sub">Se necesitan al menos tres indicadores.</p>';
@@ -557,7 +557,7 @@ function radar(items) {
   items.forEach((it, i) => { const [x, y] = pt(i, score(it)); g += `<circle cx="${x}" cy="${y}" r="3.6" fill="${COL[it.st]}" stroke="var(--surface)" stroke-width="1.2"/>`; });
   items.forEach((it, i) => {
     const [x, y] = pt(i, max + 0.2); const a = Math.cos(ang(i)); const anchor = Math.abs(a) < 0.2 ? 'middle' : a > 0 ? 'start' : 'end';
-    const short = it.n.replace(' (rentabilidad sobre activos)', '').replace(' (rentabilidad sobre patrimonio)', '').replace('Periodo promedio de cobro', 'Periodo de cobro').replace('Rotación de activos totales', 'Rotación activos').replace('Endeudamiento de activos', 'Endeud. activos').replace('Margen de utilidad ', 'Margen ').replace('Rotación de inventarios', 'Rot. inventarios').replace('Endeudamiento patrimonial', 'Endeud. patrimonial');
+    const short = it.n.split(' (')[0];
     g += `<text x="${x}" y="${y + 4}" text-anchor="${anchor}" font-size="10.5">${esc(short)}</text>`;
   });
   return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Radar de indicadores frente al ideal">${g}</svg>
@@ -664,7 +664,7 @@ function tabDiag(prof, P, x, xp, ev) {
 function bindCopyTable(ev, P) {
   const b = $('#b-tsv'); if (!b) return;
   b.onclick = () => {
-    const rows = [['Dimensión', 'Indicador', 'Valor', 'Meta', 'Estado'], ...ev.items.map(i => [i.d, i.n, fmtVal(i.v, i.f), (i.hb ? '>= ' : '<= ') + fmtVal(i.g, i.f), LBL[i.st]]), ['', 'Índice de Salud Financiera', Math.round(ev.isf), '', STATE_TXT[ev.state]]];
+    const rows = [['Dimensión', 'Indicador', 'Valor', 'Meta', 'Estado'], ...ev.items.map(i => [i.d, i.n, fmtVal(i.v, i.f), (i.hb ? '>= ' : '<= ') + fmtVal(i.g, i.f), LBL[i.st]]), ['', 'ISF (Índice de Salud Financiera)', Math.round(ev.isf), '', STATE_TXT[ev.state]]];
     copyText(rows.map(r => r.join('\t')).join('\n'), $('#t-tsv'));
   };
 }
@@ -691,7 +691,7 @@ function tabGraf(prof, P, x, xp, ev, evp) {
       return `<tr class="${t ? 'tot' : ''}"><td>${l}</td>${xp ? `<td>${nf(vp)}</td><td>${pc(vp / xp[base])}</td>` : ''}<td>${nf(v)}</td><td>${pc(v / x[base])}</td>${xp ? `<td>${nf(v - vp)}</td><td class="${ah > 0 ? 'up' : ah < 0 ? 'down' : ''}">${isFinite(ah) ? (ah > 0 ? '▲ ' : ah < 0 ? '▼ ' : '') + pc(Math.abs(ah)) : '—'}</td>` : ''}</tr>`; }).join('')}</tbody></table></div>`;
     h += `<div style="display:grid;gap:14px;margin-top:14px"><div class="box"><h4>Estado de Resultados</h4><p class="sub">${xp ? 'Análisis vertical (A.V., sobre ventas) y horizontal (A.H., variación entre gestiones).' : 'Análisis vertical sobre ventas. Ingrese la gestión anterior para ver el análisis horizontal.'}</p>${tbl(rowsER, 'ventas')}</div>
       <div class="box"><h4>Balance General</h4><p class="sub">Análisis vertical sobre el activo total${xp ? ' y variación entre gestiones' : ''}.</p>${tbl(rowsBG, 'AT')}</div></div>`;
-    if (xp) h += `<div class="box" style="margin-top:14px"><h4>Evolución de márgenes y rentabilidad</h4><p class="sub">Comparación entre la gestión anterior y la actual, en porcentaje.</p>${barsCompare(['Margen bruto', 'Margen neto', 'ROA', 'ROE'], [xp.MB, xp.MN, xp.ROA, xp.ROE].map(v => v * 100), [x.MB, x.MN, x.ROA, x.ROE].map(v => v * 100), v => nf(v, 1), 'Gestión anterior', 'Gestión actual')}</div>`;
+    if (xp) h += `<div class="box" style="margin-top:14px"><h4>Evolución de márgenes y rentabilidad</h4><p class="sub">Comparación entre la gestión anterior y la actual, en porcentaje.</p>${barsCompare(['MUB', 'MUN', 'ROA', 'ROE'], [xp.MB, xp.MN, xp.ROA, xp.ROE].map(v => v * 100), [x.MB, x.MN, x.ROA, x.ROE].map(v => v * 100), v => nf(v, 1), 'Gestión anterior', 'Gestión actual')}</div>`;
   } else {
     h += `<div class="box"><h4>Lo que tiene frente a lo que debe</h4><p class="sub">Patrimonio neto: ${bs(x.PN)}.</p>${stackBars([
       { label: 'Lo que tiene', parts: [['Ahorros', x.aho, '#5B86B4'], ['Bienes', x.act, '#1C3550']] },
@@ -725,19 +725,19 @@ function tabLev(d, x) {
   const L = levCalc(d, x);
   const auto = (d.cvar === '' || d.cvar == null) || (d.cf === '' || d.cf == null);
   let h = `<div class="sec-title"><h3>Apalancamiento operativo, financiero y combinado</h3><p>${auto ? 'Estimado con costo de ventas como costo variable y gastos operativos como costo fijo.' : 'Calculado con la estructura de costos ingresada.'}</p></div><div class="lev">`;
-  [['GAO', 'Grado de apalancamiento operativo', 'Margen de contribución / UAII', L.GAO], ['GAF', 'Grado de apalancamiento financiero', 'UAII / (UAII − Intereses)', L.GAF], ['GAM', 'Grado de apalancamiento combinado', 'GAO × GAF', L.GAM]].forEach(([k, n, fx, v]) => {
+  [['GAO', 'GAO (Grado de Apalancamiento Operativo)', 'Margen de contribución / UAII', L.GAO], ['GAF', 'GAF (Grado de Apalancamiento Financiero)', 'UAII / (UAII − Intereses)', L.GAF], ['GAM', 'GAM (Grado de Apalancamiento Mixto o Combinado)', 'GAO × GAF', L.GAM]].forEach(([k, n, fx, v]) => {
     const [st, t] = levComment(k, v); h += `<article class="card ${st}"><div class="h"><div><div class="dimn">${k}</div><div class="name">${n}</div></div><span class="tag ${st}">${LBL[st]}</span></div><div class="val">${v > 0 ? nf(v, 2) : '—'}</div><div class="plain">${t}</div><div class="formula">${fx}</div></article>`;
   });
   h += `</div><div class="two" style="margin-top:14px"><div class="box"><h4>Apalancamiento operativo, financiero y combinado</h4><p class="sub">Cuántas veces se amplifica en la utilidad un cambio en las ventas.</p>${levBars(L)}</div>
     <div class="box"><h4>Sensibilidad de la utilidad</h4><p class="sub">Qué pasa con la utilidad si las ventas suben o bajan.</p>${sensitivity(L)}</div>`;
-  h += `</div><div class="two" style="margin-top:14px"><div class="box"><h4>Punto de equilibrio</h4><p class="sub">Ventas mínimas para no ganar ni perder: <b class="mono">${isFinite(L.PE) ? bs(L.PE) : '—'}</b> al año${isFinite(L.MS) ? ` · Margen de seguridad: <b class="mono">${pc(L.MS)}</b> (cuánto pueden caer sus ventas antes de tener pérdidas)` : ''}.</p>${breakEvenChart(x.ventas, L.CVt, L.CF)}</div>`;
+  h += `</div><div class="two" style="margin-top:14px"><div class="box"><h4>PE (Punto de Equilibrio)</h4><p class="sub">Ventas mínimas para no ganar ni perder: <b class="mono">${isFinite(L.PE) ? bs(L.PE) : '—'}</b> al año${isFinite(L.MS) ? ` · MS (Margen de Seguridad): <b class="mono">${pc(L.MS)}</b> (cuánto pueden caer sus ventas antes de tener pérdidas)` : ''}.</p>${breakEvenChart(x.ventas, L.CVt, L.CF)}</div>`;
   // DuPont + Altman
   const X1 = x.CT / x.AT, X2 = (x.PAT - num(d.b.cap)) / x.AT, X3 = x.UO / x.AT, X4 = x.PAT / x.PT; const Z = 6.56 * X1 + 3.26 * X2 + 6.72 * X3 + 1.05 * X4;
   const zst = Z > 2.6 ? 'ok' : Z >= 1.1 ? 'warn' : 'bad'; const ztxt = { ok: 'Zona segura: baja probabilidad de dificultades financieras.', warn: 'Zona gris: situación de alerta que requiere seguimiento.', bad: 'Zona de peligro: alta probabilidad de dificultades financieras.' }[zst];
   h += `<div class="box"><h4>Sistema DuPont</h4><p class="sub">Explica de dónde viene la rentabilidad de los dueños.</p>
-    <div class="tbl-wrap"><table><tbody><tr><td>Margen neto</td><td>${pc(x.MN, 2)}</td></tr><tr><td>× Rotación de activos</td><td>${nf(x.RAT, 2)}</td></tr><tr><td>× Multiplicador del capital (Activo / Patrimonio)</td><td>${nf(x.MUL, 2)}</td></tr><tr class="tot"><td>= ROE</td><td>${pc(x.ROE)}</td></tr></tbody></table></div>
+    <div class="tbl-wrap"><table><tbody><tr><td>MUN (Margen de Utilidad Neta)</td><td>${pc(x.MN, 2)}</td></tr><tr><td>× RAT (Rotación de Activos Totales)</td><td>${nf(x.RAT, 2)}</td></tr><tr><td>× MC (Multiplicador del Capital = Activo / Patrimonio)</td><td>${nf(x.MUL, 2)}</td></tr><tr class="tot"><td>= ROE (Rentabilidad sobre el Patrimonio)</td><td>${pc(x.ROE)}</td></tr></tbody></table></div>
     <h4 style="margin-top:18px">Alerta temprana Z'' de Altman</h4><p class="sub">Modelo para empresas que no cotizan en bolsa (Altman, 2005).</p>
-    <article class="card ${zst}" style="margin-top:4px"><div class="h"><div class="name">Puntaje Z''</div><span class="tag ${zst}">${{ ok: 'Segura', warn: 'Gris', bad: 'Peligro' }[zst]}</span></div><div class="val">${isFinite(Z) ? nf(Z, 2) : '—'}</div><div class="plain">${ztxt}${num(d.b.cap) ? '' : ' Ingrese el capital social para un cálculo más preciso de las utilidades retenidas.'}</div><div class="formula">6,56·X1 + 3,26·X2 + 6,72·X3 + 1,05·X4</div></article></div></div>`;
+    <article class="card ${zst}" style="margin-top:4px"><div class="h"><div class="name">Z'' (Puntaje Z de Altman)</div><span class="tag ${zst}">${{ ok: 'Segura', warn: 'Gris', bad: 'Peligro' }[zst]}</span></div><div class="val">${isFinite(Z) ? nf(Z, 2) : '—'}</div><div class="plain">${ztxt}${num(d.b.cap) ? '' : ' Ingrese el capital social para un cálculo más preciso de las utilidades retenidas.'}</div><div class="formula">6,56·X1 + 3,26·X2 + 6,72·X3 + 1,05·X4</div></article></div></div>`;
   return h;
 }
 function tabPres(x, prof) {
@@ -794,10 +794,10 @@ function bindSim(prof, P, d, x, ev) {
   const out = () => {
     const y = P.kind === 'emp' ? projectEmp(x, SIM) : projectPer(x, SIM); const e2 = evaluate(prof, y);
     const rows = P.kind === 'emp'
-      ? [['Ventas netas', x.ventas, y.ventas, 'bs'], ['Utilidad neta', x.UN, y.UN, 'bs'], ['Margen neto', x.MN, y.MN, '%'], ['Disponibles (caja y bancos)', x.disp, y.disp, 'bs'], ['Razón corriente', x.RC, y.RC, 'x'], ['Prueba ácida', x.PA, y.PA, 'x'], ['Cobertura de intereses', x.CI, y.CI, 'x'], ['ROE', x.ROE, y.ROE, '%']]
-      : [['Ingreso mensual', x.I, y.I, 'bs'], ['Saldo mensual (ahorro)', x.saldo, y.saldo, 'bs'], ['Ahorro en un año', x.saldo * 12, y.saldo * 12, 'bs'], ['Tasa de ahorro', x.TA, y.TA, '%'], ['Carga de la deuda', x.CDd, y.CDd, '%'], ['Fondo de emergencia', x.FE, y.FE, 'm']];
+      ? [['Ventas netas', x.ventas, y.ventas, 'bs'], ['Utilidad neta', x.UN, y.UN, 'bs'], ['MUN (Margen de Utilidad Neta)', x.MN, y.MN, '%'], ['Disponibles (caja y bancos)', x.disp, y.disp, 'bs'], ['RC (Razón Corriente)', x.RC, y.RC, 'x'], ['PA (Prueba Ácida)', x.PA, y.PA, 'x'], ['CI (Cobertura de Intereses)', x.CI, y.CI, 'x'], ['ROE (Rentabilidad sobre el Patrimonio)', x.ROE, y.ROE, '%']]
+      : [['Ingreso mensual', x.I, y.I, 'bs'], ['Saldo mensual (ahorro)', x.saldo, y.saldo, 'bs'], ['Ahorro en un año', x.saldo * 12, y.saldo * 12, 'bs'], ['TA (Tasa de Ahorro)', x.TA, y.TA, '%'], ['CDE (Carga de la Deuda)', x.CDd, y.CDd, '%'], ['FE (Fondo de Emergencia)', x.FE, y.FE, 'm']];
     const dIsf = e2.isf - ev.isf;
-    let h = `<div class="box"><h4>Resultado del escenario</h4><p class="sub">Índice de Salud Financiera: <b class="mono">${Math.round(ev.isf)}</b> → <b class="mono" style="color:${COL[e2.state]}">${Math.round(e2.isf)}</b> <span class="state st-${e2.state}" style="font-size:11px">${STATE_TXT[e2.state]}</span> <span class="delta ${dIsf >= 0 ? 'up' : 'down'}">${dIsf >= 0 ? '+' : ''}${nf(dIsf, 0)} pts</span></p>
+    let h = `<div class="box"><h4>Resultado del escenario</h4><p class="sub">ISF (Índice de Salud Financiera): <b class="mono">${Math.round(ev.isf)}</b> → <b class="mono" style="color:${COL[e2.state]}">${Math.round(e2.isf)}</b> <span class="state st-${e2.state}" style="font-size:11px">${STATE_TXT[e2.state]}</span> <span class="delta ${dIsf >= 0 ? 'up' : 'down'}">${dIsf >= 0 ? '+' : ''}${nf(dIsf, 0)} pts</span></p>
       <div class="tbl-wrap"><table><thead><tr><th>Variable</th><th>Actual</th><th>Escenario</th></tr></thead><tbody>${rows.map(r => `<tr><td>${r[0]}</td><td>${fmtVal(r[1], r[3])}</td><td class="${r[2] > r[1] ? 'up' : r[2] < r[1] ? 'down' : ''}">${fmtVal(r[2], r[3])}</td></tr>`).join('')}</tbody></table></div>`;
     if (P.kind === 'emp') h += `<p class="sub" style="margin-top:10px">${y.liberado >= 0 ? `Efectivo liberado por cobros e inventarios: <b class="mono">${bs(y.liberado)}</b>.` : `Efectivo absorbido por más cuentas por cobrar e inventarios: <b class="mono">${bs(-y.liberado)}</b>.`}${y.disp < 0 ? ' <b style="color:var(--bad)">Atención: el escenario deja la caja en negativo; necesitaría financiamiento adicional.</b>' : ''}</p>`;
     h += `<div style="margin-top:12px">${barsCompare(Object.keys(e2.ds), Object.keys(e2.ds).map(k => ev.ds[k]), Object.keys(e2.ds).map(k => e2.ds[k]), v => nf(v, 0), 'Situación actual', 'Escenario')}</div></div>`;
@@ -1206,14 +1206,14 @@ function waterfall(steps) {
 }
 function shortBs(v) { const a = Math.abs(v); const s = v < 0 ? '−' : ''; if (a >= 1e9) return s + nf(a / 1e9, 1) + ' MM'; if (a >= 1e6) return s + nf(a / 1e6, 1) + ' M'; if (a >= 1e3) return s + nf(a / 1e3, 0) + ' k'; return s + nf(a, 0); }
 function bulletChart(items) {
-  const W = 470, rowH = 30, L = 168, H = items.length * rowH + 30; const max = 1.5;
+  const W = 520, rowH = 30, L = 262, H = items.length * rowH + 30; const max = 1.5;
   const score = it => { let s; if (!isFinite(it.v)) s = (it.v === Infinity) === !!it.hb ? max : 0; else if (it.hb) s = it.g > 0 ? it.v / it.g : 0; else s = it.v <= 0 ? max : it.g / it.v; return Math.max(0, Math.min(max, s)); };
   const X = s => L + (W - L - 74) * s / max; let g = '';
   [0, 0.5, 1, 1.5].forEach(t => g += `<line x1="${X(t)}" x2="${X(t)}" y1="14" y2="${H - 14}" stroke="${t === 1 ? 'var(--ink)' : 'var(--line)'}" stroke-width="${t === 1 ? 1.4 : .7}" ${t === 1 ? 'stroke-dasharray="3 3"' : ''}/>`);
   g += `<text x="${X(1)}" y="10" text-anchor="middle" font-size="10" style="fill:var(--muted)">Meta</text>`;
   items.forEach((it, i) => {
     const y = 20 + i * rowH; const s = score(it);
-    g += `<text x="${L - 8}" y="${y + 15}" text-anchor="end" font-size="12">${esc(it.n.replace(/ \(.*\)/, '').replace('Periodo promedio de cobro', 'Periodo de cobro').replace('Margen de utilidad ', 'Margen ').replace('Rotación de activos totales', 'Rotación de activos'))}</text>`;
+    g += `<text x="${L - 8}" y="${y + 15}" text-anchor="end" font-size="12.5">${esc(it.n.replace(' en Días', ''))}</text>`;
     g += `<rect x="${X(0)}" y="${y + 4}" width="${X(max) - X(0)}" height="14" fill="var(--sunk)" rx="3"/><rect x="${X(0)}" y="${y + 4}" width="${Math.max(2, X(s) - X(0))}" height="14" fill="${COL[it.st]}" rx="3"/>`;
     g += `<text x="${X(max) + 6}" y="${y + 16}" font-size="11.5" font-family="var(--f-mono)">${fmtVal(it.v, it.f).replace(' días', ' d').replace(' meses', ' m')}</text>`;
   });
